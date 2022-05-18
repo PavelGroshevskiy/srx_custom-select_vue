@@ -62,15 +62,19 @@ export default {
     },
   },
 
+  mounted() {
+    document.addEventListener("click", () => {
+      this.dialogVisible = false;
+    });
+  },
+
   computed: {
     filterOptions() {
       if (this.value === "") {
         return this.options;
       } else {
         return [...this.options].filter((option) =>
-          option.name
-            ?.toLowerCase()
-            .includes(this.value.toLowerCase() || this.select.toLowerCase())
+          option.name?.toLowerCase().includes(this.value.toLowerCase())
         );
       }
     },
