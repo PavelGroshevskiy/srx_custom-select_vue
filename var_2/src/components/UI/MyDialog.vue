@@ -3,7 +3,7 @@
     <dialog-option
       :option="option"
       v-for="option in options"
-      :key="option.value"
+      :key="option.name"
       @selectOption="$emit('selectOption', option)"
     />
 
@@ -33,6 +33,19 @@ export default {
 };
 </script>
 <style scope lang="scss">
+.list {
+  display: inline-block;
+  margin-right: 10px;
+}
+.list-enter-active,
+.list-leave-active {
+  transition: all 1s ease-in-out;
+}
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
 .dialog {
   &_container {
     margin-top: 5px;

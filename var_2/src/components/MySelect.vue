@@ -5,13 +5,16 @@
       </my-input>
     </div>
 
-    <my-dialog
-      v-if="!isLoading"
-      @selectOption="selected"
-      v-model:show="dialogVisible"
-      :options="filterOptions"
-    ></my-dialog>
-    <div v-else class="options_loading">Loading...</div>
+    <transition name="list">
+      <my-dialog
+        v-if="!isLoading"
+        @selectOption="selected"
+        v-model:show="dialogVisible"
+        :options="filterOptions"
+      ></my-dialog>
+
+      <div v-else class="options_loading">Loading...</div>
+    </transition>
   </div>
 </template>
 <script>
@@ -49,7 +52,7 @@ export default {
           this.options = await response.data;
           this.isLoading = false;
           this.showDialog();
-        }, 1000);
+        }, 500);
       } catch (e) {
         alert(e);
       }
@@ -67,6 +70,9 @@ export default {
       this.dialogVisible = false;
     });
   },
+  beforeUnmount() {
+    document.removeEventListener("click");
+  },
 
   computed: {
     filterOptions() {
@@ -82,6 +88,22 @@ export default {
 };
 </script>
 <style lang="scss">
+.list {
+  &-enter-active {
+    transition: 0.3s ease-in;
+  }
+  &-leave-active {
+    transition: linear;
+  }
+  &-enter-from {
+    opacity: 0.6;
+    transform: translateX(-30px);
+  }
+  &-leave-to {
+    opacity: 0.1;
+    transform: translateX(10px);
+  }
+}
 .options {
   &_loading {
     margin-top: 5px;
